@@ -1,0 +1,15 @@
+{
+  "name": "finchatbot",
+  "version": "1.0.0",
+  "description": "React chat bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Onkar Kirpan",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  }
+}
