@@ -5,6 +5,8 @@ const structjson = require("../chatbot/utils");
 const config = require('../config/keys');
 
 const projectID = config.googleProjectID;
+const sessionID = config.dialogFlowSessionID;
+const languageCode = config.dialogFlowSessionLanguageCode;
 
 const credentials = {
     client_email: config.googleClientEmail,
@@ -15,11 +17,12 @@ const sessionClient = new dialogflow.SessionsClient({
     projectID,
     credentials
 });
-const sessionPath = sessionClient.projectAgentSessionPath(config.googleProjectID, config.dialogFlowSessionID);
 
 module.exports = {
-    textQuery: async function (text, parameters = {}) {
+    textQuery: async function (text, userID, parameters = {}) {
+        let sessionPath = sessionClient.projectAgentSessionPath(projectID, sessionID + userID);
         let self = module.exports;
+
         const request = {
             session: sessionPath,
             queryInput: {
@@ -27,7 +30,7 @@ module.exports = {
                     // The query to send to the dialogflow agent
                     text: text,
                     // The language used by the client (en-US)
-                    languageCode: config.dialogFlowSessionLanguageCode,
+                    languageCode: languageCode,
                 },
             },
             queryParams: {
@@ -44,7 +47,8 @@ module.exports = {
 
         return responses;
     },
-    eventQuery: async function (event, parameters = {}) {
+    eventQuery: async function (event, userID, parameters = {}) {
+        let sessionPath = sessionClient.projectAgentSessionPath(projectID, sessionID + userID);
         let self = module.exports;
         const request = {
             session: sessionPath,
