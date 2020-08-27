@@ -12,7 +12,7 @@ const credentials = {
 }
 
 const sessionClient = new dialogflow.SessionsClient({
-    projectId,
+    projectID,
     credentials
 });
 const sessionPath = sessionClient.projectAgentSessionPath(config.googleProjectID, config.dialogFlowSessionID);
