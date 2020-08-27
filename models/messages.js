@@ -9,6 +9,7 @@ var MessagesSchema = new mongoose.Schema({
         type: String,
         index: true
     },
+
 });
 
 var Messages = mongoose.model('Messages', MessagesSchema);
