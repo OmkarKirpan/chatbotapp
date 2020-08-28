@@ -16,6 +16,7 @@ class Chatbot extends Component {
     this.handleInputKeyPress = this.handleInputKeyPress.bind(this);
     this.state = {
       messages: [],
+      sessionId: uuid(),
     };
     if (cookies.get("userID") === undefined) {
       cookies.set("userID", uuid(), { path: "/" });
@@ -64,12 +65,19 @@ class Chatbot extends Component {
     }
   }
 
-  async setMessagesDB(msgs) {
-    // const res = await axios.post("/api/saveMsgs", {
-    //   messages: msgs,
-    //   userID: cookies.get("userID"),
-    // });
-    console.log(msgs);
+  async setMessagesDB(msgs, sessionId) {
+    var last_element = msgs[msgs.length - 1];
+    var lastmsg = last_element.msg.text.text;
+    let dropOffmsg = Array.isArray(lastmsg) ? lastmsg[0] : lastmsg;
+
+    const res = await axios.post("/api/saveMsgs", {
+      messages: msgs,
+      userId: cookies.get("userID"),
+      sessionId: sessionId,
+      dropOff: dropOffmsg,
+    });
+
+    console.log(dropOffmsg, lastmsg, sessionId);
   }
 
   componentDidMount() {
@@ -79,7 +87,7 @@ class Chatbot extends Component {
 
   componentDidUpdate() {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-    this.setMessagesDB(this.state.messages);
+    this.setMessagesDB(this.state.messages, this.state.sessionId);
   }
 
   renderMessages(stateMessages) {

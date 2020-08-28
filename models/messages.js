@@ -1,19 +1,22 @@
 var mongoose = require("mongoose");
 
 var MessagesSchema = new mongoose.Schema({
+    _id: {
+        type: mongoose.Schema.Types.ObjectId
+    },
     messages: {
-        type: Array,
-        index: true
+        type: Array
     },
     user_id: {
         type: String,
-        index: true
     },
-
+    session_id: {
+        type: String,
+    },
+    dropOff: {
+        type: String,
+    }
 });
 
-var Messages = mongoose.model('Messages', MessagesSchema);
 
-module.exports = {
-    Messages: Messages
-}
+module.exports = mongoose.model('Messages', MessagesSchema);
