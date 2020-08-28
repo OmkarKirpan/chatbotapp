@@ -5,8 +5,24 @@ import Cookies from "universal-cookie";
 import { v4 as uuid } from "uuid";
 
 import Message from "./Message";
+import ScrollToBottom from "react-scroll-to-bottom";
+import "./chat.css";
 
 const cookies = new Cookies();
+
+const InfoBar = ({ room }) => (
+  <div className="infoBar">
+    <div className="leftInnerContainer">
+      {/* <img className="onlineIcon" src={onlineIcon} alt="online" /> */}
+      <h3>{room}</h3>
+    </div>
+    <div className="rightInnerContainer">
+      {/* <a href="/">
+        <img src={closeIcon} alt="close" />
+      </a> */}
+    </div>
+  </div>
+);
 
 class Chatbot extends Component {
   messagesEnd;
@@ -77,7 +93,7 @@ class Chatbot extends Component {
       dropOff: dropOffmsg,
     });
 
-    console.log(dropOffmsg, lastmsg, sessionId);
+    // console.log(dropOffmsg, lastmsg, sessionId);
   }
 
   componentDidMount() {
@@ -110,23 +126,16 @@ class Chatbot extends Component {
     if (e.key === "Enter") {
       this.df_text_query(e.target.value);
       e.target.value = "";
+      e.preventDefault();
     }
   }
 
   render() {
     return (
-      <div>
-        <div style={{ height: 400, width: 400, float: "right" }}>
-          <b>Chatbot</b>
-          <div
-            style={{
-              height: "100%",
-              width: "100%",
-              overflow: "auto",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+      <div className="outerContainer bgcontainer">
+        <div className="container bgcontainer">
+          <InfoBar room="Chat Bot" />
+          <ScrollToBottom className="messages">
             {this.renderMessages(this.state.messages)}
             <div
               ref={(el) => {
@@ -134,16 +143,18 @@ class Chatbot extends Component {
               }}
               style={{ float: "left", clear: "both" }}
             ></div>
-            <div style={{ marginTop: "auto" }}>
-              <input
-                ref={(input) => {
-                  this.nameInput = input;
-                }}
-                type="text"
-                onKeyPress={this.handleInputKeyPress}
-              />
-            </div>
-          </div>
+          </ScrollToBottom>
+          <form className="form">
+            <input
+              ref={(input) => {
+                this.nameInput = input;
+              }}
+              className="input"
+              type="text"
+              placeholder="Type a message..."
+              onKeyPress={this.handleInputKeyPress}
+            />
+          </form>
         </div>
       </div>
     );
