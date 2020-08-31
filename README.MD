@@ -8,7 +8,7 @@ Created with React, Express, Node, MongoDB and DialogFlow❤️
 live preview here at
 <https://chatbotok.herokuapp.com/>
 
-API track conversational AI interactions
+API to track conversational AI interactions
 <https://chatbotok.herokuapp.com/api/stats/>
 
 ## Getting Started
